@@ -32,6 +32,8 @@ public class MovieListAdapter extends PagedListAdapter<Movie, MovieListAdapter.M
 
     private final MovieCallback movieClickedListener;
 
+
+
     public MovieListAdapter(Context mContext, MovieCallback movieClickedListener){
         super(Movie.DIFF_CALLBACK);
         this.mContext = mContext;
@@ -59,6 +61,13 @@ public class MovieListAdapter extends PagedListAdapter<Movie, MovieListAdapter.M
             @Override
             public void onClick(View v) {
                 movieClickedListener.onMovieClicked(movie, v);
+            }
+        });
+        holder.listItemMovieBinding.favouriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                movieClickedListener.onFavouriteMovieClicked(movie.isFavourite(), movie.getId(), v);
             }
         });
     }

@@ -20,23 +20,27 @@ import com.example.android.popularmovies.data.model.Movie;
 public class MovieListViewModel extends AndroidViewModel {
 
     private LiveData<PagedList<Movie>> pagedListLiveData;
-    MutableLiveData<SortMovieFilter> sortBy = new MutableLiveData();
+    MutableLiveData<String> sortBy = new MutableLiveData();
+    private MoviesService mMoviesService;
+    private Repository mRepository;
+    //private boolean isFavourite;
 
     private MutableLiveData<Integer> currentTitle = new MutableLiveData<>();
 
 
     public MovieListViewModel(@NonNull Application application) {
         super(application);
-        sortBy.setValue(SortMovieFilter.POPULAR);
+        sortBy.setValue("popularity.desc");
 
         currentTitle.setValue(R.string.action_popular);
-        MoviesService mMoviesService = ApiClient.getServiceInstance();
-        Repository mRepository = Repository.getsRepoInstance(mMoviesService);
+        mMoviesService = ApiClient.getServiceInstance();
+        mRepository = Repository.getsRepoInstance(mMoviesService, application);
 
-        pagedListLiveData = Transformations.switchMap(sortBy, new Function<SortMovieFilter, LiveData<PagedList<Movie>>>() {
+
+        pagedListLiveData = Transformations.switchMap(sortBy, new Function<String, LiveData<PagedList<Movie>>>() {
             @Override
-            public LiveData<PagedList<Movie>> apply(SortMovieFilter sort) {
-                return mRepository.loadMoviesFromDb(sort,application);
+            public LiveData<PagedList<Movie>> apply(String sort) {
+                return mRepository.loadMoviesFromDb(sort);
             }
         });
     }
@@ -45,37 +49,29 @@ public class MovieListViewModel extends AndroidViewModel {
         return pagedListLiveData;
     }
 
-    public SortMovieFilter getCurrentSorting() {
+    public String getCurrentSorting() {
         return sortBy.getValue();
     }
 
     public void setSortMoviesBy(int id) {
-        SortMovieFilter filterType = null;
+        String filterType = null;
         Integer title = null;
         switch (id) {
             case R.id.popular_movies: {
                 // check if already selected. no need to request API
-                if (sortBy.getValue() == SortMovieFilter.POPULAR)
+                if (sortBy.getValue().equals("popularity.desc"))
                     return;
 
-                filterType = SortMovieFilter.POPULAR;
+                filterType = "popularity.desc";
                 title = R.string.action_popular;
                 break;
             }
             case R.id.top_rated: {
-                if (sortBy.getValue() == SortMovieFilter.TOP_RATED)
+                if (sortBy.getValue().equals("vote_count.desc"))
                     return;
 
-                filterType = SortMovieFilter.TOP_RATED;
+                filterType = "vote_count.desc";
                 title = R.string.action_top_rated;
-                break;
-            }
-            case R.id.playing_now: {
-                if (sortBy.getValue() == SortMovieFilter.NOW_PLAYING)
-                    return;
-
-                filterType = SortMovieFilter.NOW_PLAYING;
-                title = R.string.action_now_playing;
                 break;
             }
 
@@ -88,6 +84,15 @@ public class MovieListViewModel extends AndroidViewModel {
 
     public LiveData<Integer> getCurrentTitle() {
         return currentTitle;
-
     }
+
+    public void onFavouriteMovieClicked(int isFavourite, int movieId){
+        if (isFavourite != 1) {
+            mRepository.setFavouriteMovieToDb(movieId);
+        }else{
+            mRepository.removeFavouriteMovieFromDb(movieId);
+        }
+    }
+
+
 }

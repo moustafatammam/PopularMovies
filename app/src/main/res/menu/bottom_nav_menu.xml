@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/moviesFragment"
+        android:icon="@drawable/baseline_home_24"
+        android:title="HOME"/>
+    <item
+        android:id="@+id/favouriteMoviesFragment"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="FAVOURITE"/>
+</menu>

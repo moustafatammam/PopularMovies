@@ -41,10 +41,8 @@ public class PagedKeyedMovieDataSource extends PageKeyedDataSource<Integer, Movi
 
         if (sortBy == SortMovieFilter.POPULAR) {
             call = moviesService.getPopularMovies(1);
-        } else if (sortBy == SortMovieFilter.TOP_RATED){
-            call = moviesService.getTopRatedMovies(1);
         } else {
-            call = moviesService.getNowPlayingMovies(1);
+            call = moviesService.getTopRatedMovies(1);
         }
 
         call.enqueue(new Callback<MovieResponse>() {
@@ -81,10 +79,8 @@ public class PagedKeyedMovieDataSource extends PageKeyedDataSource<Integer, Movi
         Call<MovieResponse> call;
         if (sortBy == SortMovieFilter.POPULAR) {
             call = moviesService.getPopularMovies(params.key);
-        } else if (sortBy == SortMovieFilter.TOP_RATED){
-            call = moviesService.getTopRatedMovies(params.key);
         } else {
-            call = moviesService.getNowPlayingMovies(params.key);
+            call = moviesService.getTopRatedMovies(params.key);
         }
 
         call.enqueue(new Callback<MovieResponse>() {

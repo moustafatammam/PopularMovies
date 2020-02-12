@@ -6,7 +6,6 @@ public enum SortMovieFilter implements Serializable {
 
     POPULAR
     , TOP_RATED
-    , NOW_PLAYING;
 
 
 }

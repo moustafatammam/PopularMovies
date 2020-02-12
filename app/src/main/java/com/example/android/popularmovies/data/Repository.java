@@ -8,7 +8,6 @@ import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import com.example.android.popularmovies.SortMovieFilter;
 import com.example.android.popularmovies.data.api.MoviesService;
 import com.example.android.popularmovies.data.api.NetworkStatus;
 import com.example.android.popularmovies.data.database.LocalMovieCache;
@@ -26,19 +25,20 @@ public class Repository {
     private MoviesService mMoviesService;
     private static Repository sRepoInstance;
     private static final int MOVIE_LIST_PAGE_SIZE = 20;
+    private LocalMovieCache localMovieCache;
 
 
 
     public MutableLiveData<NetworkStatus> networkState = new MutableLiveData<>();
 
 
-    private Repository(MoviesService mMoviesService) {
+    private Repository(MoviesService mMoviesService, Context context) {
         this.mMoviesService = mMoviesService;
+        localMovieCache = new LocalMovieCache(context);
 
     }
 
-    public LiveData<PagedList<Movie>> loadMoviesFromDb(SortMovieFilter sortBy, Context context) {
-        LocalMovieCache localMovieCache = new LocalMovieCache(context);
+    public LiveData<PagedList<Movie>> loadMoviesFromDb(String sortBy) {
         MovieBoundaryCallback movieBoundaryCallback = new MovieBoundaryCallback(sortBy, localMovieCache);
 
         DataSource.Factory<Integer, Movie> dataSourceFactory = localMovieCache.getPagedMovies(sortBy);
@@ -49,37 +49,44 @@ public class Repository {
     }
 
 
-
-    public LiveData<Movie> getMovieDetails(int movieId, Context context) {
+    public LiveData<Movie> getMovieDetails(int movieId) {
         networkState.postValue(NetworkStatus.LOADING_IS_RUNNING);
-        LocalMovieCache localMovieCache = new LocalMovieCache(context);
         return localMovieCache.getMovieDetailsFromDb(movieId);
     }
 
 
-    public LiveData<List<Credits>> getCreditsFromDb(int movieId, Context context) {
-        LocalMovieCache localMovieCache = new LocalMovieCache(context);
+    public LiveData<List<Credits>> getCreditsFromDb(int movieId) {
         localMovieCache.creditsRequestAndSave(movieId, mMoviesService);
         return localMovieCache.getMovieCreditsFromDb(movieId);
     }
-    public LiveData<List<Video>> getTrailersFromDb(int movieId, Context context) {
-        LocalMovieCache localMovieCache = new LocalMovieCache(context);
+    public LiveData<List<Video>> getTrailersFromDb(int movieId) {
         localMovieCache.trailersRequestAndSave(movieId, mMoviesService);
         return localMovieCache.getMovieTrailersFromDb(movieId);
     }
-    public LiveData<List<Review>> getReviewsFromDb(int movieId, Context context) {
-        LocalMovieCache localMovieCache = new LocalMovieCache(context);
+    public LiveData<List<Review>> getReviewsFromDb(int movieId) {
         localMovieCache.reviewsRequestAndSave(movieId, mMoviesService);
         return localMovieCache.getMovieReviewsFromDb(movieId);
     }
 
+    public void setFavouriteMovieToDb(int movieId){
+        localMovieCache.setFavouriteMovie(movieId);
+    }
+    public void removeFavouriteMovieFromDb(int movieId){
+        localMovieCache.removeFavouriteMovie(movieId);
+    }
+    public LiveData<List<Movie>> getAllFavouriteMoviesFromDb(){
+        return localMovieCache.getFavouriteMovies();
+    }
 
 
-    public static Repository getsRepoInstance(MoviesService mMoviesService) {
+
+
+
+    public static Repository getsRepoInstance(MoviesService mMoviesService, Context context) {
         if (sRepoInstance == null) {
             synchronized (Repository.class) {
                 if (sRepoInstance == null) {
-                    sRepoInstance = new Repository(mMoviesService);
+                    sRepoInstance = new Repository(mMoviesService, context);
                 }
             }
         }

@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 
-import com.example.android.popularmovies.SortMovieFilter;
 import com.example.android.popularmovies.data.api.MoviesService;
 import com.example.android.popularmovies.data.api.NetworkStatus;
 import com.example.android.popularmovies.data.model.Credits;
@@ -42,7 +41,9 @@ public class LocalMovieCache {
     public MutableLiveData<NetworkStatus> networkState = new MutableLiveData<>();
 
 
-    private int insertionOrder = 0;
+    private int insertionOrderPop = 0;
+    private int insertionOrderTop = 0;
+    private int insertionOrderNow = 0;
 
 
     public LocalMovieCache(Context context) {
@@ -50,14 +51,12 @@ public class LocalMovieCache {
 
     }
 
-    public void insertMoviesToDb(List<Movie> movies, SortMovieFilter sortBy, MovieBoundaryCallback.InsertCallback insertCallback) {
+    public void insertMoviesToDb(List<Movie> movies, MovieBoundaryCallback.InsertCallback insertCallback) {
         mExecutors.getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "inserting movies");
                 for (Movie movie : movies) {
-                    movie.setSortBy(sortBy);
-                    movie.setSortingId(insertionOrder++);
                     GenreMapping.setGenres(movie);
                 }
                 movieDatabase.movieDao().insertMovie(movies);
@@ -66,8 +65,6 @@ public class LocalMovieCache {
             }
         });
     }
-
-
 
 
     private void insertCreditsToDb(List<Credits> credits, int movieId) {
@@ -81,6 +78,7 @@ public class LocalMovieCache {
             }
         });
     }
+
     private void insertTrailersTob(List<Video> trailers, int movieId) {
         mExecutors.getDiskIO().execute(new Runnable() {
             @Override
@@ -92,6 +90,7 @@ public class LocalMovieCache {
             }
         });
     }
+
     private void insertReviewsToDb(List<Review> reviews, int movieId) {
         mExecutors.getDiskIO().execute(new Runnable() {
             @Override
@@ -102,6 +101,30 @@ public class LocalMovieCache {
                 movieDatabase.reviewDao().insertReview(reviews);
             }
         });
+    }
+
+
+    public void setFavouriteMovie(int movieId) {
+        mExecutors.getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                movieDatabase.movieDao().favouriteMovie(movieId);
+            }
+        });
+    }
+
+    public void removeFavouriteMovie(int movieId) {
+        mExecutors.getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                movieDatabase.movieDao().unFavouriteMovie(movieId);
+            }
+        });
+
+    }
+
+    public LiveData<List<Movie>> getFavouriteMovies() {
+        return movieDatabase.movieDao().getFavouriteMovies();
     }
 
 
@@ -129,6 +152,7 @@ public class LocalMovieCache {
         });
 
     }
+
     public void trailersRequestAndSave(int movieId, MoviesService mMoviesService) {
         networkState.postValue(NetworkStatus.LOADING_IS_RUNNING);
 
@@ -180,10 +204,16 @@ public class LocalMovieCache {
     }
 
 
-    public final DataSource.Factory<Integer, Movie> getPagedMovies(SortMovieFilter sortBy) {
+    public final DataSource.Factory<Integer, Movie> getPagedMovies(String sortBy) {
         Log.d(TAG, "getting data");
-        return movieDatabase.movieDao().getPagedMovies(sortBy);
+
+        if (sortBy.equals("popularity.desc")) {
+            return movieDatabase.movieDao().getPagedMoviesPop();
+        }else {
+            return movieDatabase.movieDao().getPagedMoviesTop();
+        }
     }
+
 
     public final LiveData<Movie> getMovieDetailsFromDb(int movieId) {
         Log.d(TAG, "getting movie details");
@@ -194,10 +224,12 @@ public class LocalMovieCache {
         Log.d(TAG, "getting movie credits");
         return movieDatabase.castDao().getCredits(movieId);
     }
+
     public final LiveData<List<Video>> getMovieTrailersFromDb(int movieId) {
         Log.d(TAG, "getting movie credits");
         return movieDatabase.trailerDao().getTrailers(movieId);
     }
+
     public final LiveData<List<Review>> getMovieReviewsFromDb(int movieId) {
         Log.d(TAG, "getting movie credits");
         return movieDatabase.reviewDao().getReview(movieId);

@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.SortMovieFilter;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.databinding.FragmentPopularMoviesBinding;
 import com.example.android.popularmovies.ui.activities.MainActivity;
@@ -71,12 +70,10 @@ public class MoviesFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.sorting_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        if (movieListViewModel.getCurrentSorting() == SortMovieFilter.POPULAR) {
+        if (movieListViewModel.getCurrentSorting().equals("popularity.desc")) {
             menu.findItem(R.id.popular_movies).setChecked(true);
-        } else if (movieListViewModel.getCurrentSorting()== SortMovieFilter.TOP_RATED) {
-            menu.findItem(R.id.top_rated).setChecked(true);
         } else {
-            menu.findItem(R.id.playing_now).setChecked(true);
+            menu.findItem(R.id.top_rated).setChecked(true);
         }
     }
 
@@ -114,6 +111,12 @@ public class MoviesFragment extends Fragment {
         public void onMovieClicked(Movie movie, View view) {
             Navigation.findNavController(view).navigate(MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(movie.getId()));
         }
+
+        @Override
+        public void onFavouriteMovieClicked(int isFavourite, int movieId, View view) {
+            movieListViewModel.onFavouriteMovieClicked(isFavourite, movieId);
+        }
+
     }
 
 

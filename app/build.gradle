@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 
-
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
@@ -35,6 +34,7 @@ apply plugin: "androidx.navigation.safeargs"
 
 dependencies {
     implementation "androidx.room:room-runtime:2.2.3"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     annotationProcessor "androidx.room:room-compiler:2.2.3"
     implementation "androidx.navigation:navigation-fragment:2.2.0"
     implementation "androidx.navigation:navigation-ui:2.2.0"

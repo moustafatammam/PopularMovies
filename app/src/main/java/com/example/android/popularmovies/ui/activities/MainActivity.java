@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         navController = Navigation.findNavController(this, R.id.nav_host);
+        BottomNavigationView bottomNav = activityMainBinding.bottomNav;
         NavigationUI.setupActionBarWithNavController(this, navController);
+        NavigationUI.setupWithNavController(bottomNav, navController);
+
+
+
+
         getSupportActionBar().setHideOnContentScrollEnabled(true);
 
     }

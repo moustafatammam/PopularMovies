@@ -1,14 +1,12 @@
 package com.example.android.popularmovies.util;
 
-import android.util.Log;
-
 import com.example.android.popularmovies.data.model.Genre;
 import com.example.android.popularmovies.data.model.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreMapping {
+public class GenreMapping<T> {
 
     public static String genres(int genreId){
 
@@ -59,12 +57,10 @@ public class GenreMapping {
        List<Integer> genreId =  movie.getGenreIds();
        List<Genre> genres = new ArrayList<>();
        for(int i=0 ; i < genreId.size(); i++){
-           Log.d("asd", "ge");
            Genre genre = new Genre();
            genre.setId(genreId.get(i));
            genre.setGenre(genres(genreId.get(i)));
            genres.add(genre);
-           Log.d("asd", genre.getGenre());
        }
        movie.setGenres(genres);
     }

@@ -33,11 +33,11 @@ public class MovieDetailsViewModel extends AndroidViewModel {
         super(application);
         this.movieId = movieId;
         MoviesService mMoviesService = ApiClient.getServiceInstance();
-        Repository repository = Repository.getsRepoInstance(mMoviesService);
-        movieDetailsLiveData = repository.getMovieDetails(movieId, application);
-        creditsLiveData = repository.getCreditsFromDb(movieId, application);
-        reviewLiveData = repository.getReviewsFromDb(movieId, application);
-        trailerLiveData = repository.getTrailersFromDb(movieId, application);
+        Repository repository = Repository.getsRepoInstance(mMoviesService, application);
+        movieDetailsLiveData = repository.getMovieDetails(movieId);
+        creditsLiveData = repository.getCreditsFromDb(movieId);
+        reviewLiveData = repository.getReviewsFromDb(movieId);
+        trailerLiveData = repository.getTrailersFromDb(movieId);
     }
 
 

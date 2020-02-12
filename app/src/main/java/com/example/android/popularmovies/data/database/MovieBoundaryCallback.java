@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.paging.PagedList;
 
-import com.example.android.popularmovies.SortMovieFilter;
 import com.example.android.popularmovies.data.api.ApiClient;
 import com.example.android.popularmovies.data.api.MoviesService;
 import com.example.android.popularmovies.data.model.Movie;
@@ -30,11 +29,11 @@ public class MovieBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
 
     private final MoviesService moviesService = ApiClient.getServiceInstance();
 
-    private SortMovieFilter sortBy;
+    private String sortBy;
 
     private List<Movie> movies;
 
-    public MovieBoundaryCallback(SortMovieFilter sortBy, LocalMovieCache mLocalMovieCache) {
+    public MovieBoundaryCallback(String sortBy, LocalMovieCache mLocalMovieCache) {
         this.sortBy = sortBy;
         this.mLocalMovieCache = mLocalMovieCache;
     }
@@ -46,7 +45,7 @@ public class MovieBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
 
     @Override
     public void onZeroItemsLoaded() {
-        requestAndSaveData(sortBy, moviesService);
+        requestAndSaveData(sortBy,  moviesService);
     }
 
     @Override
@@ -55,7 +54,7 @@ public class MovieBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
     }
 
 
-    private void requestAndSaveData(SortMovieFilter sortBy, MoviesService moviesService) {
+    private void requestAndSaveData(String sortBy, MoviesService moviesService) {
         Log.d(TAG, "request");
 
         if (isRequestInProgress) {
@@ -65,13 +64,7 @@ public class MovieBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
 
 
         Call<MovieResponse> call;
-        if (sortBy == SortMovieFilter.POPULAR) {
-            call = moviesService.getPopularMovies(lastPageRequestedPop);
-        } else if (sortBy == SortMovieFilter.TOP_RATED) {
-            call = moviesService.getTopRatedMovies(lastPageRequestedTop);
-        } else {
-            call = moviesService.getNowPlayingMovies(lastPageRequestedNow);
-        }
+            call = moviesService.getMovies(sortBy, lastPageRequestedPop);
 
         call.enqueue(new Callback<MovieResponse>() {
             @Override
@@ -80,14 +73,8 @@ public class MovieBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
                 if (response.body() != null) {
                     movies = response.body().getResults();
 
-                    mLocalMovieCache.insertMoviesToDb(movies, sortBy, () -> {
-                        if (sortBy == SortMovieFilter.POPULAR) {
+                    mLocalMovieCache.insertMoviesToDb(movies, () -> {
                             lastPageRequestedPop++;
-                        } else if (sortBy == SortMovieFilter.TOP_RATED) {
-                            lastPageRequestedTop++;
-                        } else {
-                            lastPageRequestedNow++;
-                        }
                         isRequestInProgress = false;
                     });
                     Log.d(TAG, "calling done");

@@ -33,6 +33,7 @@ public abstract class MovieDatabase extends RoomDatabase {
     public static MovieDatabase getInstance(Context context){
         if(sDatabaseInstance == null){
             synchronized (LOCK){
+
                 Log.d(LOG_TAG, "creating a new database instance");
                 sDatabaseInstance = Room.databaseBuilder(context.getApplicationContext(),
                         MovieDatabase.class, MovieDatabase.DATABASE_NAME)
@@ -50,5 +51,6 @@ public abstract class MovieDatabase extends RoomDatabase {
     public abstract TrailerDao trailerDao();
 
     public abstract ReviewDao reviewDao();
+
 
 }

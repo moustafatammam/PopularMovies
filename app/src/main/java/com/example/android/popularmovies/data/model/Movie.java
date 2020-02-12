@@ -7,23 +7,18 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.android.popularmovies.SortMovieFilter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 @Entity(tableName = "movie")
-public final class Movie {
+public class Movie  {
 
     @PrimaryKey
     private int id;
 
     private double popularity;
 
-
-    private int sortingId;
-
-    private SortMovieFilter sortBy;
 
     @SerializedName("vote_count")
     @ColumnInfo(name = "vote_count")
@@ -73,7 +68,9 @@ public final class Movie {
     @SerializedName("genres")
     private List<Genre> genres;
 
-    public Movie(int sortingId, SortMovieFilter sortBy, double popularity, long voteCount, String posterPath, int id, boolean adult, String backdropPath, String title, String originalTitle, Boolean video, String originalLanguage, List<Integer> genreIds, Double voteAverage, String overView, String releaseDate, String runTime, List<Genre> genres) {
+    private int isFavourite;
+
+    public Movie( int isFavourite, double popularity, long voteCount, String posterPath, int id, boolean adult, String backdropPath, String title, String originalTitle, Boolean video, String originalLanguage, List<Integer> genreIds, Double voteAverage, String overView, String releaseDate, String runTime, List<Genre> genres) {
         this.popularity = popularity;
         this.voteCount = voteCount;
         this.posterPath = posterPath;
@@ -90,16 +87,20 @@ public final class Movie {
         this.releaseDate = releaseDate;
         this.genres = genres;
         this.runTime = runTime;
-        this.sortBy = sortBy;
-        this.sortingId = sortingId;
+        this.isFavourite = isFavourite;
     }
 
-    public int getSortingId() {
-        return sortingId;
+
+
+
+
+
+    public int isFavourite() {
+        return isFavourite;
     }
 
-    public void setSortingId(int sortingId) {
-        this.sortingId = sortingId;
+    public void setFavourite(int isFavourite) {
+        this.isFavourite = isFavourite;
     }
 
     public double getPopularity() {
@@ -228,14 +229,6 @@ public final class Movie {
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
-    }
-
-    public SortMovieFilter getSortBy() {
-        return sortBy;
-    }
-
-    public void setSortBy(SortMovieFilter sortBy) {
-        this.sortBy = sortBy;
     }
 
     public static final DiffUtil.ItemCallback<Movie> DIFF_CALLBACK = new DiffUtil.ItemCallback<Movie>() {

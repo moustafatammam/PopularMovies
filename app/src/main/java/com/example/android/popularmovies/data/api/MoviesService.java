@@ -21,8 +21,6 @@ public interface MoviesService {
     @GET("movie/top_rated")
     Call<MovieResponse> getTopRatedMovies(@Query("page") int page);
 
-    @GET("movie/now_playing")
-    Call<MovieResponse> getNowPlayingMovies(@Query("page") int page);
 
     @GET("discover/movie")
      Call<MovieResponse> getMovies(
