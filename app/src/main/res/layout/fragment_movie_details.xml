@@ -220,11 +220,9 @@
 
         <TextView
             android:id="@+id/label_trailers"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="trailers"
             app:layout_constraintStart_toStartOf="@id/label_cast"
             app:layout_constraintTop_toBottomOf="@+id/third_divider" />

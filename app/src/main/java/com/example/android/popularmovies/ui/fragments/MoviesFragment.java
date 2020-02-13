@@ -26,6 +26,7 @@ import com.example.android.popularmovies.ui.activities.MainActivity;
 import com.example.android.popularmovies.ui.adapter.MovieCallback;
 import com.example.android.popularmovies.ui.adapter.MovieListAdapter;
 import com.example.android.popularmovies.viewmodel.MovieListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class MoviesFragment extends Fragment {
@@ -35,6 +36,8 @@ public class MoviesFragment extends Fragment {
     private MovieListViewModel movieListViewModel;
 
     private FragmentPopularMoviesBinding fragmentPopularMoviesBinding;
+
+    private RecyclerView moviesRecyclerView;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -52,6 +55,16 @@ public class MoviesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+
+        FloatingActionButton mFloatingActionButton = fragmentPopularMoviesBinding.backToTop;
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moviesRecyclerView.scrollToPosition(0);
+            }
+        });
+
+
 
         // creating an instance of the MovieListViewModel
         movieListViewModel = ViewModelProviders.of(this).get(MovieListViewModel.class);
@@ -81,6 +94,7 @@ public class MoviesFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         movieListViewModel.setSortMoviesBy(item.getItemId());
         item.setChecked(true);
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -93,11 +107,12 @@ public class MoviesFragment extends Fragment {
                 movieListAdapter.submitList(movies);
             }
         });
+
     }
 
     // setup the recycler view and its adapter for the movie list.
     private void setupMovieList() {
-        RecyclerView moviesRecyclerView = fragmentPopularMoviesBinding.moviesRecycleView;
+        moviesRecyclerView = fragmentPopularMoviesBinding.moviesRecycleView;
         movieListAdapter = new MovieListAdapter(getContext(), new MovieListener());
         moviesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         moviesRecyclerView.setNestedScrollingEnabled(true);

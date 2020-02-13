@@ -26,6 +26,7 @@ public class Repository {
     private static Repository sRepoInstance;
     private static final int MOVIE_LIST_PAGE_SIZE = 20;
     private LocalMovieCache localMovieCache;
+    private MovieBoundaryCallback movieBoundaryCallback;
 
 
 
@@ -39,7 +40,7 @@ public class Repository {
     }
 
     public LiveData<PagedList<Movie>> loadMoviesFromDb(String sortBy) {
-        MovieBoundaryCallback movieBoundaryCallback = new MovieBoundaryCallback(sortBy, localMovieCache);
+        movieBoundaryCallback = new MovieBoundaryCallback(sortBy, localMovieCache);
 
         DataSource.Factory<Integer, Movie> dataSourceFactory = localMovieCache.getPagedMovies(sortBy);
         LiveData<PagedList<Movie>> pagedListLiveData = new LivePagedListBuilder(dataSourceFactory, MOVIE_LIST_PAGE_SIZE)

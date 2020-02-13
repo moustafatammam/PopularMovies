@@ -11,7 +11,6 @@ import androidx.lifecycle.Transformations;
 import androidx.paging.PagedList;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.SortMovieFilter;
 import com.example.android.popularmovies.data.Repository;
 import com.example.android.popularmovies.data.api.ApiClient;
 import com.example.android.popularmovies.data.api.MoviesService;

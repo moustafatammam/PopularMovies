@@ -45,6 +45,7 @@ public class MovieBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
 
     @Override
     public void onZeroItemsLoaded() {
+
         requestAndSaveData(sortBy,  moviesService);
     }
 
@@ -54,7 +55,7 @@ public class MovieBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
     }
 
 
-    private void requestAndSaveData(String sortBy, MoviesService moviesService) {
+    public void requestAndSaveData(String sortBy, MoviesService moviesService) {
         Log.d(TAG, "request");
 
         if (isRequestInProgress) {

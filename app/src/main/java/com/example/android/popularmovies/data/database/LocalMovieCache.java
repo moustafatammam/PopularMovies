@@ -41,10 +41,6 @@ public class LocalMovieCache {
     public MutableLiveData<NetworkStatus> networkState = new MutableLiveData<>();
 
 
-    private int insertionOrderPop = 0;
-    private int insertionOrderTop = 0;
-    private int insertionOrderNow = 0;
-
 
     public LocalMovieCache(Context context) {
         movieDatabase = MovieDatabase.getInstance(context);
@@ -234,5 +230,7 @@ public class LocalMovieCache {
         Log.d(TAG, "getting movie credits");
         return movieDatabase.reviewDao().getReview(movieId);
     }
+
+
 
 }
