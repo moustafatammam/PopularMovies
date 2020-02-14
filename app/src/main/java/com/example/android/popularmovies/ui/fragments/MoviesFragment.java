@@ -94,7 +94,6 @@ public class MoviesFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         movieListViewModel.setSortMoviesBy(item.getItemId());
         item.setChecked(true);
-
         return super.onOptionsItemSelected(item);
     }
 

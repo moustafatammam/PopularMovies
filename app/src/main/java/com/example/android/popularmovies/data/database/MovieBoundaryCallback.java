@@ -20,8 +20,6 @@ public class MovieBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
     private static final String TAG = MovieBoundaryCallback.class.getSimpleName();
 
     private int lastPageRequestedPop = 1;
-    private int lastPageRequestedTop = 1;
-    private int lastPageRequestedNow = 1;
 
     private boolean isRequestInProgress = false;
 
