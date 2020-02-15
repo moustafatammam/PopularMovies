@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.model.Movie;
 import com.example.android.popularmovies.databinding.FavouriteMoviesFragmentBinding;
 import com.example.android.popularmovies.ui.adapter.FavouriteMoviesAdapter;
+import com.example.android.popularmovies.ui.adapter.MovieCallback;
 import com.example.android.popularmovies.viewmodel.FavouriteMoviesViewModel;
 
 import java.util.List;
@@ -27,7 +29,6 @@ public class FavouriteMoviesFragment extends Fragment {
     private FavouriteMoviesViewModel mViewModel;
     private FavouriteMoviesFragmentBinding favouriteMoviesFragment;
     private FavouriteMoviesAdapter mFavouriteMovieAdapter;
-
 
 
     @Override
@@ -42,7 +43,7 @@ public class FavouriteMoviesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(FavouriteMoviesViewModel.class);
         RecyclerView favouriteRecyclerView = favouriteMoviesFragment.favouriteMoviesRecycleView;
-        mFavouriteMovieAdapter = new FavouriteMoviesAdapter(getContext());
+        mFavouriteMovieAdapter = new FavouriteMoviesAdapter(getContext(), new FavoriteMovieListener());
         favouriteRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         favouriteRecyclerView.setNestedScrollingEnabled(true);
         favouriteRecyclerView.setAdapter(mFavouriteMovieAdapter);
@@ -54,6 +55,19 @@ public class FavouriteMoviesFragment extends Fragment {
             }
         });
 
-}
 
+    }
+
+    private class FavoriteMovieListener implements MovieCallback {
+
+        @Override
+        public void onMovieClicked(Movie movie, View view) {
+            Navigation.findNavController(view).navigate(FavouriteMoviesFragmentDirections.actionFavouriteMoviesFragmentToMovieDetailsFragment(movie.getId()));
+        }
+
+        @Override
+        public void onFavouriteMovieClicked(int isFavourite, int movieId, View view) {
+        }
+
+    }
 }

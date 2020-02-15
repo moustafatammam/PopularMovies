@@ -5,8 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movies_recycle_view"
@@ -23,7 +23,7 @@
             android:layout_gravity="bottom|end"
             android:src="@drawable/baseline_arrow_upward_24"
             android:scaleType="center"
-            style="@style/Widget.MaterialComponents.FloatingActionButton"
+            android:backgroundTint="@color/colorAccentDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

@@ -2,6 +2,7 @@ package com.example.android.popularmovies.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -19,8 +20,11 @@ public class FavouriteMoviesAdapter extends RecyclerView.Adapter<FavouriteMovies
     private List<Movie> movies;
     private Context mContext;
 
-    public FavouriteMoviesAdapter(Context mContext) {
+    private final MovieCallback movieClickedListener;
+
+    public FavouriteMoviesAdapter(Context mContext, MovieCallback movieClickedListener) {
         this.mContext = mContext;
+        this.movieClickedListener = movieClickedListener;
     }
 
     @NonNull
@@ -33,6 +37,12 @@ public class FavouriteMoviesAdapter extends RecyclerView.Adapter<FavouriteMovies
     @Override
     public void onBindViewHolder(@NonNull FavouriteMovieViewHolder holder, int position) {
         holder.favouriteItemMovieBinding.setMovie(movies.get(position));
+        holder.favouriteItemMovieBinding.favouriteCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                movieClickedListener.onMovieClicked(movies.get(position), v);
+            }
+        });
 
     }
 

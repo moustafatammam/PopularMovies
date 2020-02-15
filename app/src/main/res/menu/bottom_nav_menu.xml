@@ -4,9 +4,11 @@
     <item
         android:id="@+id/moviesFragment"
         android:icon="@drawable/baseline_home_24"
-        android:title="HOME"/>
+        android:title="@string/home"
+        android:iconTint="@color/colorAccent"/>
     <item
         android:id="@+id/favouriteMoviesFragment"
         android:icon="@drawable/baseline_favorite_24"
-        android:title="FAVOURITE"/>
+        android:title="@string/favourite"
+        android:iconTint="@color/colorAccent"/>
 </menu>

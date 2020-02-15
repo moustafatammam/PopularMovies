@@ -5,8 +5,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
 
-        >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favourite_movies_recycle_view"
             android:layout_width="match_parent"
