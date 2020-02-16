@@ -8,7 +8,7 @@ public interface MovieCallback {
 
     void onMovieClicked(Movie movie, View view);
 
-    void onFavouriteMovieClicked(int isFavourite, int movieId, View view);
+    void onFavouriteMovieClicked(int isFavourite, Movie movie, View view);
 
 
 }

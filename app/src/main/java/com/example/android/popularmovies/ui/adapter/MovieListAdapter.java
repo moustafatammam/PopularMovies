@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class MovieListAdapter extends PagedListAdapter<Movie, MovieListAdapter.M
     private Context mContext;
 
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
 
 
 
@@ -63,13 +65,18 @@ public class MovieListAdapter extends PagedListAdapter<Movie, MovieListAdapter.M
                 movieClickedListener.onMovieClicked(movie, v);
             }
         });
-        holder.listItemMovieBinding.favouriteButton.setOnClickListener(new View.OnClickListener() {
+        CheckBox checkBox = holder.listItemMovieBinding.favouriteButton;
+        checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                movieClickedListener.onFavouriteMovieClicked(movie.isFavourite(), movie.getId(), v);
+                movieClickedListener.onFavouriteMovieClicked(movie.isFavourite(), movie, v);
             }
         });
+        if (movie != null && movie.isFavourite() == 1){
+            checkBox.setChecked(true);
+        }else {
+            checkBox.setChecked(false);
+        }
     }
 
 

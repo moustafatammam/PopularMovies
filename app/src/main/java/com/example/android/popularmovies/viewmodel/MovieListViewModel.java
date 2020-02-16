@@ -22,7 +22,6 @@ public class MovieListViewModel extends AndroidViewModel {
     MutableLiveData<String> sortBy = new MutableLiveData();
     private MoviesService mMoviesService;
     private Repository mRepository;
-    //private boolean isFavourite;
 
     private MutableLiveData<Integer> currentTitle = new MutableLiveData<>();
 
@@ -36,12 +35,14 @@ public class MovieListViewModel extends AndroidViewModel {
         mRepository = Repository.getsRepoInstance(mMoviesService, application);
 
 
+
         pagedListLiveData = Transformations.switchMap(sortBy, new Function<String, LiveData<PagedList<Movie>>>() {
             @Override
             public LiveData<PagedList<Movie>> apply(String sort) {
                 return mRepository.loadMoviesFromDb(sort);
             }
         });
+
     }
 
     public LiveData<PagedList<Movie>> getPagedListLiveData() {
@@ -58,17 +59,18 @@ public class MovieListViewModel extends AndroidViewModel {
         switch (id) {
             case R.id.popular_movies: {
                 // check if already selected. no need to request API
-                if (sortBy.getValue().equals("popularity.desc"))
+                if (sortBy.getValue().equals("popularity.desc")) {
                     return;
+                }
 
                 filterType = "popularity.desc";
                 title = R.string.action_popular;
                 break;
             }
             case R.id.top_rated: {
-                if (sortBy.getValue().equals("vote_count.desc"))
+                if (sortBy.getValue().equals("vote_count.desc")){
                     return;
-
+                }
                 filterType = "vote_count.desc";
                 title = R.string.action_top_rated;
                 break;
@@ -85,13 +87,14 @@ public class MovieListViewModel extends AndroidViewModel {
         return currentTitle;
     }
 
-    public void onFavouriteMovieClicked(int isFavourite, int movieId){
+    public void onFavouriteMovieClicked(int isFavourite, Movie movie) {
         if (isFavourite != 1) {
-            mRepository.setFavouriteMovieToDb(movieId);
-        }else{
-            mRepository.removeFavouriteMovieFromDb(movieId);
+            mRepository.setFavouriteMovieToDb(movie.getId());
+
+        } else {
+            mRepository.removeFavouriteMovieFromDb(movie.getId());
+
         }
     }
-
 
 }

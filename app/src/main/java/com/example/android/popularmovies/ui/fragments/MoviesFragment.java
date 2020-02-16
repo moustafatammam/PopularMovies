@@ -38,6 +38,7 @@ public class MoviesFragment extends Fragment {
     private FragmentPopularMoviesBinding fragmentPopularMoviesBinding;
 
     private RecyclerView moviesRecyclerView;
+    private MovieListener mMovieListener;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -63,9 +64,7 @@ public class MoviesFragment extends Fragment {
                 moviesRecyclerView.scrollToPosition(0);
             }
         });
-
-
-
+        mMovieListener = new MovieListener();
         // creating an instance of the MovieListViewModel
         movieListViewModel = ViewModelProviders.of(this).get(MovieListViewModel.class);
         movieListViewModel.getCurrentTitle().observe(this, new Observer<Integer>() {
@@ -112,7 +111,7 @@ public class MoviesFragment extends Fragment {
     // setup the recycler view and its adapter for the movie list.
     private void setupMovieList() {
         moviesRecyclerView = fragmentPopularMoviesBinding.moviesRecycleView;
-        movieListAdapter = new MovieListAdapter(getContext(), new MovieListener());
+        movieListAdapter = new MovieListAdapter(getContext(), mMovieListener);
         moviesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         moviesRecyclerView.setNestedScrollingEnabled(true);
         moviesRecyclerView.setAdapter(movieListAdapter);
@@ -127,8 +126,8 @@ public class MoviesFragment extends Fragment {
         }
 
         @Override
-        public void onFavouriteMovieClicked(int isFavourite, int movieId, View view) {
-            movieListViewModel.onFavouriteMovieClicked(isFavourite, movieId);
+        public void onFavouriteMovieClicked(int isFavourite, Movie movie, View view) {
+            movieListViewModel.onFavouriteMovieClicked(isFavourite, movie);
         }
 
     }

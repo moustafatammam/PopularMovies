@@ -66,7 +66,7 @@ public class FavouriteMoviesFragment extends Fragment {
         }
 
         @Override
-        public void onFavouriteMovieClicked(int isFavourite, int movieId, View view) {
+        public void onFavouriteMovieClicked(int isFavourite, Movie movie, View view) {
         }
 
     }

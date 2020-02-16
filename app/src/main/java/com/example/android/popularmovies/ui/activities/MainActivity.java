@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController);
         NavigationUI.setupWithNavController(bottomNav, navController);
 
-
-
-
         getSupportActionBar().setHideOnContentScrollEnabled(true);
 
     }
