@@ -155,7 +155,7 @@ public class MovieDetailsFragment extends Fragment {
                 Intent shareIntent = ShareCompat.IntentBuilder.from(getActivity())
                         .setType("text/plain")
                         .setSubject(movieDetails.getTitle() + "movie trailer")
-                        .setText("check" + movieDetails.getTitle() + "movie trailer at" + Uri.parse(YOUTUBE_LINK_TRAILER + movieTrailer.getKey()))
+                        .setText("check " + movieDetails.getTitle() + " movie trailer at " + Uri.parse(YOUTUBE_LINK_TRAILER + movieTrailer.getKey()))
                         .createChooserIntent();
                 shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
                 if (shareIntent.resolveActivity(getActivity().getPackageManager()) != null) {
