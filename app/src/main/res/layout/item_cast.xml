@@ -6,7 +6,7 @@
     <data>
         <variable
             name="cast"
-            type="com.example.android.popularmovies.data.model.Credits" />
+            type="com.example.android.moviesplus.data.model.Credits" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

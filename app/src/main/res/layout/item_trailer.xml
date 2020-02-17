@@ -6,7 +6,7 @@
     <data>
         <variable
             name="video"
-            type="com.example.android.popularmovies.data.model.Video" />
+            type="com.example.android.moviesplus.data.model.Video" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -34,7 +34,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/placeholder" />
+                tools:src="@drawable/placeholder"
+                android:contentDescription="@string/trailer" />
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -44,7 +45,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/baseline_play_circle_filled_24"
-                tools:ignore="VectorDrawableCompat" />
+                tools:ignore="VectorDrawableCompat"
+                android:contentDescription="@string/play_icon" />
 
             <TextView
                 android:id="@+id/Trailer_title"

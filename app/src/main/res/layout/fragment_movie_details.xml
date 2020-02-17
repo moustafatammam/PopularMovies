@@ -7,7 +7,7 @@
 
         <variable
             name="movieDetailViewModel"
-            type="com.example.android.popularmovies.viewmodel.MovieDetailsViewModel" />
+            type="com.example.android.moviesplus.viewmodel.MovieDetailsViewModel" />
 
     </data>
 <ScrollView
@@ -18,13 +18,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         tools:context=".ui.fragments.MovieDetailsFragment">
 
 
         <ImageView
-            android:id="@+id/movie_trailer_image"
+            android:id="@+id/movie_backdrop_image"
             android:layout_width="match_parent"
             android:layout_height="256dp"
             android:fitsSystemWindows="true"
@@ -35,7 +35,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/placeholder" />
+            android:contentDescription="@string/backdrop_image" />
 
 
         <androidx.cardview.widget.CardView
@@ -50,7 +50,7 @@
             app:cardElevation="16dp"
             app:layout_constraintDimensionRatio="w,2:3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movie_trailer_image">
+            app:layout_constraintTop_toBottomOf="@+id/movie_backdrop_image">
 
             <ImageView
                 android:id="@+id/image_poster"
@@ -58,7 +58,8 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{movieDetailViewModel.movie.posterPath}"
-                tools:background="@tools:sample/backgrounds/scenic" />
+                tools:background="@tools:sample/backgrounds/scenic"
+                android:contentDescription="@string/poster_image" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -99,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="overview"
+            android:text="@string/movie_overview"
             app:layout_constraintStart_toStartOf="@+id/card_poster"
             app:layout_constraintTop_toBottomOf="@+id/first_divider" />
 
@@ -163,6 +164,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginLeft="48dp"
             android:text="@{movieDetailViewModel.movie.runTime}"
+            android:textColor="@color/colorBlack"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintStart_toEndOf="@+id/release_date"
             app:layout_constraintTop_toTopOf="@+id/release_date"
@@ -190,7 +192,7 @@
             android:id="@+id/label_cast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cast"
+            android:text="@string/cast_label"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/second_divider"
             app:layout_constraintHorizontal_bias="0.002"
@@ -223,7 +225,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="trailers"
+            android:text="@string/trailers_label"
             app:layout_constraintStart_toStartOf="@id/label_cast"
             app:layout_constraintTop_toBottomOf="@+id/third_divider" />
 
@@ -254,9 +256,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="reviews"
+            android:text="@string/reviews_label"
             app:layout_constraintStart_toStartOf="@id/label_trailers"
             app:layout_constraintTop_toBottomOf="@+id/fourth_divider" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

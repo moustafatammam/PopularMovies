@@ -6,7 +6,7 @@
     <data>
         <variable
             name="review"
-            type="com.example.android.popularmovies.data.model.Review" />
+            type="com.example.android.moviesplus.data.model.Review" />
     </data>
 
 <androidx.cardview.widget.CardView
@@ -36,7 +36,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/baseline_account_circle_24"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginLeft="16dp"
+            android:contentDescription="@string/author_image" />
 
 
         <TextView

@@ -8,4 +8,14 @@
     <string name="action_popular">Popular</string>
     <string name="home">HOME</string>
     <string name="favourite">FAVOURITE</string>
+    <string name="backdrop_image">backdrop image</string>
+    <string name="poster_image">poster image</string>
+    <string name="movie_overview">Overview</string>
+    <string name="minutes">MIN</string>
+    <string name="reviews_label">Reviews</string>
+    <string name="trailers_label">Trailers</string>
+    <string name="cast_label">Cast</string>
+    <string name="author_image">author image</string>
+    <string name="trailer">Trailer</string>
+    <string name="play_icon">play icon</string>
 </resources>
