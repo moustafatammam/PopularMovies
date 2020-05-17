@@ -1,5 +1,7 @@
 "Movie Plus"
 
+![image] (https://github.com/moustafatammam/PopularMovies/blob/master/Screenshot_2020-05-06-02-13-54-923_com.example.android.popularmovies.jpg)
+
 A Movie browsing android application that allows the user to browse popular and top-rated movies, see movies details, casts, trailers, reviews, posters, adding them to your favorite list and can run offline, it is built using themoviedb API.
 
 it uses:
